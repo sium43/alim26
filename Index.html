@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alim 26 Topper's Roadmap Pro Batch (BOM)</title>
+  <style>
+    /* =========================
+    CSS STYLES
+    ========================= */
+    :root{
+      --bg:#0d1117;
+      --card:rgba(255,255,255,0.06);
+      --card2:rgba(255,255,255,0.08);
+      --text:#e6edf3;
+      --muted:#9ba3af;
+      --accent1:#22d3ee;
+      --accent2:#10b981;
+      --border:#273043;
+      --pinned-bg: rgba(34, 211, 238, 0.1);
+      --pinned-border: rgba(34, 211, 238, 0.3);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(13,17,23,0.85), rgba(13,17,23,0.6));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .tag{opacity:.85;font-weight:600;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .searchbar{display:flex;gap:10px;align-items:center;width:100%;max-width:520px}
+    .searchbar input, select{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card2);color:var(--text);outline:none;
+    }
+    .grid{
+      display:grid;gap:16px;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      margin-top:18px;
+    }
+    .card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:16px;backdrop-filter: blur(12px);
+      transition:transform .2s, border-color .2s;
+    }
+    .card:hover{transform:translateY(-4px);border-color:#2b5cff}
+    .card.pinned {
+      background: var(--pinned-bg);
+      border: 2px solid var(--pinned-border);
+      position: relative;
+    }
+    .card.pinned::before {
+      content: "আজকের ক্লাস";
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      color: #001015;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .subject{font-weight:700;margin-bottom:8px;color:#7ecbff}
+    .time{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid transparent;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
+    .btn:focus,.btn:hover{filter:brightness(1.05)}
+    .subj-list{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:18px}
+    .pill{
+      background:var(--card);border:1px solid var(--border);border-radius:999px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px
+    }
+    .pill .go{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
+    footer{opacity:.7;margin:24px 0;text-align:center;font-size:.9rem}
+    .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
+    .back-btn {display: inline-block; margin-bottom: 20px; padding: 8px 16px; background: var(--card); border-radius: 8px;}
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title::before {
+      content: "";
+      display: block;
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(180deg,var(--accent1),var(--accent2));
+      border-radius: 4px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- মেইন ইনডেক্স পৃষ্ঠা -->
+  <div id="main-page">
+    <header>
+      <nav class="nav container">
+        <div class="brand">Alim 26 <span class="tag">Topper's Roadmap Pro (BOM)</span></div>
+        <div class="searchbar">
+          <input id="search-subjects" type="search" placeholder="🔍 সাবজেক্ট খুঁজুন...">
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <!-- আজকের ক্লাস সেকশন -->
+      <div class="section-title">
+        <h2>আজকের ক্লাস</h2>
+      </div>
+      <div id="today-classes" class="grid">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p>
+        </div>
+      </div>
+
+      <!-- সকল সাবজেক্ট সেকশন -->
+      <div class="section-title">
+        <h2>সব সাবজেক্ট</h2>
+      </div>
+      <div class="subj-list">
+        <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span>📘 কুরআন মাজীদ</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span>📘 হাদীস ও উসূলুল হাদীস</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আল ফিকহ প্রথম পত্র"><span>📘 আল ফিকহ প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আল ফিকহ দ্বিতীয় পত্র"><span>📘 আল ফিকহ দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি প্রথম পত্র"><span>📘 আরবি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি দ্বিতীয় পত্র"><span>📘 আরবি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি সাহিত্য (বিজ্ঞান ও মুজাব্বিদ মাহির বিভাগ)"><span>📘 আরবি সাহিত্য (বিজ্ঞান ও মুজাব্বিদ মাহির বিভাগ)</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বালাগাত ও মানতিক"><span>📘 বালাগাত ও মানতিক</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বাংলা প্রথম পত্র"><span>📘 বাংলা প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বাংলা দ্বিতীয় পত্র"><span>📘 বাংলা দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইংরেজি প্রথম পত্র"><span>📘 ইংরেজি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইংরেজি দ্বিতীয় পত্র"><span>📘 ইংরেজি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইসলামের ইতিহাস"><span>📘 ইসলামের ইতিহাস</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="তথ্য ও যোগাযোগ প্রযুক্তি"><span>📘 তথ্য ও যোগাযোগ প্রযুক্তি</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান প্রথম পত্র"><span>📘 পদার্থবিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান দ্বিতীয় পত্র"><span>📘 পদার্থবিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="রসায়ন প্রথম পত্র"><span>📘 রসায়ন প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="রসায়ন দ্বিতীয় পত্র"><span>📘 রসায়ন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান প্রথম পত্র"><span>📘 জীববিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান দ্বিতীয় পত্র"><span>📘 জীববিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="অর্থনীতি প্রথম পত্র"><span>📘 অর্থনীতি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="অর্থনীতি দ্বিতীয় পত্র"><span>📘 অর্থনীতি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন প্রথম পত্র"><span>📘 পৌরনীতি ও সুশাসন প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন দ্বিতীয় পত্র"><span>📘 পৌরনীতি ও সুশাসন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত প্রথম পত্র"><span>📘 উচ্চতর গণিত প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত দ্বিতীয় পত্র"><span>📘 উচ্চতর গণিত দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+      </div>
+    </main>
+
+    <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
+  </div>
+
+  <!-- সাবজেক্ট পৃষ্ঠা (প্রথমে লুকানো) -->
+  <div id="subject-page" style="display: none;">
+    <header>
+      <nav class="nav container">
+        <a class="brand back-button" href="#">← All Subjects</a>
+        <div class="controls">
+          <input id="search" type="search" placeholder="🔍 সার্চ...">
+          <select id="sort">
+            <option value="desc">Newest</option>
+            <option value="asc">Oldest</option>
+          </select>
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <h2 id="subject-title">📘 সাবজেক্ট</h2>
+      <div id="classGrid" class="grid"></div>
+    </main>
+    <footer>© 2025 Alim 26 Topper's Roadmap Pro Batch (BOM)</p>
+  <p>Crafted with care by .SIUM • Owned by Md Riad Hasan
+CEO & Founder of Bangladesh Online Madrasah</footer>
+  </div>
+
+  <script>
+    // =========================
+    // JavaScript কোড
+    // =========================
+    
+    // এখানে তোমার Google Apps Script Web App URL বসাও:
+    const API_URL = https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec
+
+        
+    // DOM হেল্পার ফাংশন
+    function $(sel, root=document){ return root.querySelector(sel); }
+    function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+    // পেজ স্টেট ম্যানেজমেন্ট
+    let currentSubject = null;
+    const mainPage = $('#main-page');
+    const subjectPage = $('#subject-page');
+    let allClasses = [];
+
+    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
+    function getTodayDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0]; // YYYY-MM-DD ফরম্যাট
+    }
+
+    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      
+      // যদি তারিখটি YYYY-MM-DD ফরম্যাটে থাকে
+      if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        return dateStr;
+      }
+      
+      // অন্যান্য ফরম্যাটের জন্য, আমরা শুধু তারিখ অংশটি নেব
+      const date = new Date(dateStr);
+      if (isNaN(date)) return dateStr;
+      
+      return date.toISOString().split('T')[0];
+    }
+
+    // ডেটা ফেচ করা
+    async function fetchData(){
+      if(!API_URL || API_URL === "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE"){
+        console.warn("Set API_URL in assets/config.js");
+        alert("দয়া করে Google Apps Script URL কনফিগার করুন।");
+        return [];
+      }
+      try {
+        const res = await fetch(API_URL);
+        const json = await res.json();
+        return json;
+      } catch (error) {
+        console.error("ডেটা লোড করতে সমস্যা:", error);
+        alert("ডেটা লোড করতে সমস্যা হচ্ছে। দয়া করে পরে চেষ্টা করুন।");
+        return [];
+      }
+    }
+
+    // ডেটা নরমালাইজ করা
+    function normalizeRow(row){
+      return {
+        link: row['লিংক'] ?? row['Link'] ?? row['link'] ?? '',
+        subject: row['সাবজেক্ট নেম'] ?? row['Subject Name'] ?? row['subject'] ?? '',
+        time: row['সময়'] ?? row['Time'] ?? row['time'] ?? '',
+        date: formatDate(row['তারিখ'] ?? row['Date'] ?? row['date'] ?? '')
+      };
+    }
+
+    // কার্ড রেন্ডার করা
+    function renderCards(rows, root, isPinned = false){
+      if (rows.length === 0) {
+        root.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>কোন ক্লাস পাওয়া যায়নি</p></div>';
+        return;
+      }
+      
+      root.innerHTML = '';
+      rows.forEach(r => {
+        const card = document.createElement('div');
+        card.className = isPinned ? 'card pinned' : 'card';
+        card.innerHTML = `
+          <div class="subject">${r.subject || 'Unknown Subject'}</div>
+          <div class="time">⏰ ${r.time || ''} ${r.date ? `| ${r.date}` : ''}</div>
+          <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}">Watch Now</a>
+        `;
+        root.appendChild(card);
+      });
+    }
+
+    // আজকের ক্লাস ফিল্টার করা
+    function filterTodayClasses(classes) {
+      const today = getTodayDate();
+      return classes.filter(cls => cls.date === today);
+    }
+
+    // সময় অনুযায়ী সাজানো
+    function sortByTime(rows, order='desc'){
+      return rows.slice().sort((a,b)=>{
+        const ta = Date.parse(a.time) || 0;
+        const tb = Date.parse(b.time) || 0;
+        return order === 'asc' ? (ta - tb) : (tb - ta);
+      });
+    }
+
+    // সাবজেক্ট পৃষ্ঠা দেখানো
+    function showSubjectPage(subject) {
+      currentSubject = subject;
+      $('#subject-title').textContent = '📘 ' + subject;
+      mainPage.style.display = 'none';
+      subjectPage.style.display = 'block';
+      loadSubjectData(subject);
+    }
+
+    // মেইন পৃষ্ঠায় ফিরে যাওয়া
+    function showMainPage() {
+      subjectPage.style.display = 'none';
+      mainPage.style.display = 'block';
+      currentSubject = null;
+    }
+
+    // সাবজেক্ট ডেটা লোড করা
+    async function loadSubjectData(subject) {
+      const grid = $('#classGrid');
+      const searchInput = $('#search');
+      const sortSelect = $('#sort');
+      
+      grid.innerHTML = '<div class="card"><div class="subject">লোড হচ্ছে...</div></div>';
+      
+      let rows = allClasses.filter(r => String(r.subject).trim() === subject);
+      
+      rows = sortByTime(rows, 'desc');
+      renderCards(rows, grid);
+
+      // সার্চ ফাংশনালিটি
+      searchInput.addEventListener('input', ()=>{
+        const q = searchInput.value.toLowerCase();
+        const filtered = rows.filter(r =>
+          (r.subject||'').toLowerCase().includes(q) || 
+          (r.time||'').toLowerCase().includes(q) ||
+          (r.date||'').toLowerCase().includes(q)
+        );
+        renderCards(filtered, grid);
+      });
+
+      // সর্ট ফাংশনালিটি
+      sortSelect.addEventListener('change', ()=>{
+        const order = sortSelect.value;
+        const sorted = sortByTime(rows, order);
+        renderCards(sorted, grid);
+      });
+    }
+
+    // আজকের ক্লাস লোড করা
+    function loadTodayClasses() {
+      const todayContainer = $('#today-classes');
+      const todayClasses = filterTodayClasses(allClasses);
+      
+      if (todayClasses.length > 0) {
+        renderCards(todayClasses, todayContainer, true);
+      } else {
+        todayContainer.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p></div>';
+      }
+    }
+
+    // ইভেন্ট লিসেনার সেটআপ
+    function setupEventListeners() {
+      // সাবজেক্ট লিঙ্ক ক্লিক
+      $all('.subject-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const subject = link.getAttribute('data-name');
+          showSubjectPage(subject);
+        });
+      });
+      
+      // ব্যাক বাটন
+      $('.back-button').addEventListener('click', (e) => {
+        e.preventDefault();
+        showMainPage();
+      });
+      
+      // মেইন পেজ সার্চ
+      const searchInput = $('#search-subjects');
+      if(searchInput) {
+        searchInput.addEventListener('input', ()=>{
+          const q = searchInput.value.trim().toLowerCase();
+          $all('.pill').forEach(p=>{
+            const name = p.dataset.name.toLowerCase();
+            p.style.display = name.includes(q) ? '' : 'none';
+          });
+        });
+      }
+    }
+
+    // প্রাথমিক ডেটা লোড
+    async function loadInitialData() {
+      const data = await fetchData();
+      allClasses = data.map(normalizeRow);
+      
+      // আজকের ক্লাস লোড করুন
+      loadTodayClasses();
+    }
+
+    // পেজ লোড হলে ইনিশিয়ালাইজেশন
+    document.addEventListener('DOMContentLoaded', ()=>{
+      setupEventListeners();
+      loadInitialData();
+      
+      // URL চেক করে সরাসরি সাবজেক্ট পেজে যাওয়ার জন্য
+      const urlParams = new URLSearchParams(window.location.search);
+      const subjectParam = urlParams.get('subject');
+      if (subjectParam) {
+        showSubjectPage(subjectParam);
+      }
+    });
+  </script>
+</body>
+</html>
