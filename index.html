@@ -4,151 +4,585 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Alim 26 Topper's Roadmap Pro Batch (BOM)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* =========================
-    CSS STYLES
+    CSS VARIABLES
     ========================= */
-    :root{
-      --bg:#0d1117;
-      --card:rgba(255,255,255,0.06);
-      --card2:rgba(255,255,255,0.08);
-      --text:#e6edf3;
-      --muted:#9ba3af;
-      --accent1:#22d3ee;
-      --accent2:#10b981;
-      --border:#273043;
-      --pinned-bg: rgba(34, 211, 238, 0.1);
-      --pinned-border: rgba(34, 211, 238, 0.3);
+    :root {
+      --bg: linear-gradient(135deg, #0d1117 0%, #1a2238 100%);
+      --card: rgba(255, 255, 255, 0.1);
+      --card-hover: rgba(255, 255, 255, 0.15);
+      --text: #e6edf3;
+      --muted: #9ba3af;
+      --accent1: #22d3ee;
+      --accent2: #10b981;
+      --accent3: #8b5cf6;
+      --border: rgba(255, 255, 255, 0.1);
+      --pinned-bg: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+      --pinned-border: rgba(34, 211, 238, 0.4);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      --glass: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:20px}
-    header{
-      position:sticky;top:0;z-index:50;
+
+    /* =========================
+    BASE STYLES
+    ========================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+    LAYOUT & CONTAINER
+    ========================= */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* =========================
+    HEADER & NAVIGATION
+    ========================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px) saturate(180%);
+      background: rgba(13, 17, 23, 0.8);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tag {
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .searchbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .searchbar input, .searchbar select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      color: var(--text);
+      outline: none;
+      transition: all 0.3s ease;
       backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(13,17,23,0.85), rgba(13,17,23,0.6));
-      border-bottom:1px solid var(--border);
     }
-    .nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 20px}
-    .brand{font-weight:800;letter-spacing:.3px}
-    .tag{opacity:.85;font-weight:600;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .searchbar{display:flex;gap:10px;align-items:center;width:100%;max-width:520px}
-    .searchbar input, select{
-      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card2);color:var(--text);outline:none;
+
+    .searchbar input:focus, .searchbar select:focus {
+      border-color: var(--accent1);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
     }
-    .grid{
-      display:grid;gap:16px;
-      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-      margin-top:18px;
+
+    /* =========================
+    CARDS & GRID
+    ========================= */
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      margin-top: 25px;
     }
-    .card{
-      background:var(--card);border:1px solid var(--border);
-      border-radius:16px;padding:16px;backdrop-filter: blur(12px);
-      transition:transform .2s, border-color .2s;
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
-    .card:hover{transform:translateY(-4px);border-color:#2b5cff}
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent1), transparent);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent1);
+      background: var(--card-hover);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
     .card.pinned {
       background: var(--pinned-bg);
-      border: 2px solid var(--pinned-border);
+      border: 1px solid var(--pinned-border);
       position: relative;
     }
+
+    .card.pinned::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+      z-index: -1;
+      border-radius: 20px;
+    }
+
     .card.pinned::before {
       content: "আজকের ক্লাস";
       position: absolute;
       top: -10px;
-      right: 12px;
-      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      right: 15px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
       color: #001015;
       font-weight: bold;
       font-size: 12px;
-      padding: 3px 8px;
+      padding: 4px 12px;
       border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+      z-index: 2;
     }
-    .subject{font-weight:700;margin-bottom:8px;color:#7ecbff}
-    .time{color:var(--muted);font-size:.95rem;margin-bottom:12px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid transparent;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
-    .btn:focus,.btn:hover{filter:brightness(1.05)}
-    .subj-list{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:18px}
-    .pill{
-      background:var(--card);border:1px solid var(--border);border-radius:999px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px
+
+    .subject {
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #7ecbff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .pill .go{padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
-    footer{opacity:.7;margin:24px 0;text-align:center;font-size:.9rem}
-    .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
-    .back-btn {display: inline-block; margin-bottom: 20px; padding: 8px 16px; background: var(--card); border-radius: 8px;}
+
+    .time {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #001015;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(34, 211, 238, 0.3);
+    }
+
+    .btn:focus, .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 211, 238, 0.4);
+    }
+
+    /* =========================
+    SUBJECT LIST
+    ========================= */
+    .subj-list {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      margin-top: 25px;
+    }
+
+    .pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .pill:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .pill .go {
+      padding: 8px 14px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #001015;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .pill:hover .go {
+      transform: translateX(3px);
+    }
+
+    /* =========================
+    FOOTER
+    ========================= */
+    footer {
+      opacity: 0.8;
+      margin: 40px 0 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* =========================
+    CONTROLS & BACK BUTTON
+    ========================= */
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 10px 18px;
+      background: var(--card);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    .back-button:hover {
+      background: var(--card-hover);
+      transform: translateX(-3px);
+    }
+
+    /* =========================
+    SECTION TITLE
+    ========================= */
     .section-title {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-      padding-bottom: 8px;
+      gap: 15px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
+
     .section-title::before {
       content: "";
       display: block;
-      width: 4px;
-      height: 24px;
-      background: linear-gradient(180deg,var(--accent1),var(--accent2));
-      border-radius: 4px;
+      width: 5px;
+      height: 28px;
+      background: linear-gradient(180deg, var(--accent1), var(--accent2));
+      border-radius: 5px;
     }
+
+    /* =========================
+    EMPTY STATE
+    ========================= */
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       color: var(--muted);
+      grid-column: 1 / -1;
     }
+
     .empty-state svg {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
       opacity: 0.5;
     }
+
+    /* =========================
+    LOADING ANIMATION
+    ========================= */
     .loading {
       display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
       border-top-color: var(--accent1);
       animation: spin 1s ease-in-out infinite;
     }
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* =========================
+    NOTIFICATION
+    ========================= */
     .notification {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
+      bottom: 25px;
+      right: 25px;
+      padding: 15px 25px;
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
       z-index: 1000;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.3s, transform 0.3s;
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+
     .notification.show {
       opacity: 1;
       transform: translateY(0);
     }
+
     .notification.error {
       border-left: 4px solid #ff4757;
     }
+
     .notification.success {
       border-left: 4px solid var(--accent2);
     }
+
+    /* =========================
+    VIDEO TITLE
+    ========================= */
     .card .video-title {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      line-height: 1.5;
+    }
+
+    /* =========================
+    ANIMATIONS
+    ========================= */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    /* =========================
+    RESPONSIVE DESIGN
+    ========================= */
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .searchbar {
+        max-width: 100%;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .subj-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title {
+        margin-top: 30px;
+      }
+    }
+
+    /* =========================
+    SPECIAL EFFECTS
+    ========================= */
+    .glow-effect {
+      position: relative;
+    }
+
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(45deg, var(--accent1), var(--accent2), var(--accent3), var(--accent2), var(--accent1));
+      background-size: 400% 400%;
+      animation: gradientGlow 3s ease infinite;
+      filter: blur(10px);
+      opacity: 0.7;
+    }
+
+    @keyframes gradientGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* =========================
+    CUSTOM SCROLLBAR
+    ========================= */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, var(--accent1), var(--accent2));
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, var(--accent2), var(--accent1));
+    }
+
+    /* =========================
+    HERO SECTION
+    ========================= */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      margin: 20px 0;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(15px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* =========================
+    STATS SECTION
+    ========================= */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -157,7 +591,10 @@
   <div id="main-page">
     <header>
       <nav class="nav container">
-        <div class="brand">Alim 26 <span class="tag">Topper's Roadmap Pro (BOM)</span></div>
+        <div class="brand">
+          <i class="fas fa-graduation-cap"></i>
+          Alim 26 <span class="tag">Topper's Roadmap Pro (BOM)</span>
+        </div>
         <div class="searchbar">
           <input id="search-subjects" type="search" placeholder="🔍 সাবজেক্ট খুঁজুন...">
         </div>
@@ -165,6 +602,28 @@
     </header>
 
     <main class="container">
+      <!-- হিরো সেকশন -->
+      <div class="hero fade-in">
+        <h1>আলিম 26 প্রো ব্যাচ</h1>
+        <p>শিক্ষার যাত্রায় এক নতুন দিগন্ত। বাংলাদেশ অনলাইন মাদ্রাসার শ্রেষ্ঠ শিক্ষার্থীদের জন্য প্রিমিয়াম লার্নিং এক্সপেরিয়েন্স</p>
+      </div>
+
+      <!-- স্ট্যাটস সেকশন -->
+      <div class="stats">
+        <div class="stat-card fade-in">
+          <div class="stat-number">24</div>
+          <div class="stat-label">সাবজেক্ট</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">ক্লাস</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">সাফল্যের হার</div>
+        </div>
+      </div>
+
       <!-- আজকের ক্লাস সেকশন -->
       <div class="section-title">
         <h2>আজকের ক্লাস</h2>
@@ -183,43 +642,43 @@
         <h2>সব সাবজেক্ট</h2>
       </div>
       <div class="subj-list">
-        <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span>📘 কুরআন মাজীদ</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span>📘 হাদীস ও উসূলুল হাদীস</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আল ফিকহ প্রথম পত্র"><span>📘 আল ফিকহ প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আল ফিকহ দ্বিতীয় পত্র"><span>📘 আল ফিকহ দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আরবি প্রথম পত্র"><span>📘 আরবি প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আরবি দ্বিতীয় পত্র"><span>📘 আরবি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আরবি সাহিত্য"><span>📘 আরবি সাহিত্য</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="বালাগাত ও মানতিক"><span>📘 বালাগাত ও মানতিক</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="বাংলা প্রথম পত্র"><span>📘 বাংলা প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="বাংলা দ্বিতীয় পত্র"><span>📘 বাংলা দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="ইংরেজি প্রথম পত্র"><span>📘 ইংরেজি প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="ইংরেজি দ্বিতীয় পত্র"><span>📘 ইংরেজি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="ইসলামের ইতিহাস"><span>📘 ইসলামের ইতিহাস</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="তথ্য ও যোগাযোগ প্রযুক্তি"><span>📘 তথ্য ও যোগাযোগ প্রযুক্তি</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান প্রথম পত্র"><span>📘 পদার্থবিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান দ্বিতীয় পত্র"><span>📘 পদার্থবিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="রসায়ন প্রথম পত্র"><span>📘 রসায়ন প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="রসায়ন দ্বিতীয় পত্র"><span>📘 রসায়ন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান প্রথম পত্র"><span>📘 জীববিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান দ্বিতীয় পত্র"><span>📘 জীববিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="অর্থনীতি প্রথম পত্র"><span>📘 অর্থনীতি প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="অর্থনীতি দ্বিতীয় পত্র"><span>📘 অর্থনীতি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন প্রথম পত্র"><span>📘 পৌরনীতি ও সুশাসন প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন দ্বিতীয় পত্র"><span>📘 পৌরনীতি ও সুশাসন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত প্রথম পত্র"><span>📘 উচ্চতর গণিত প্রথম পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত দ্বিতীয় পত্র"><span>📘 উচ্চতর গণিত দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span><i class="fas fa-book-quran"></i> কুরআন মাজীদ</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span><i class="fas fa-book"></i> হাদীস ও উসূলুল হাদীস</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আল ফিকহ প্রথম পত্র"><span><i class="fas fa-balance-scale"></i> আল ফিকহ প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আল ফিকহ দ্বিতীয় পত্র"><span><i class="fas fa-balance-scale-right"></i> আল ফিকহ দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি প্রথম পত্র"><span><i class="fas fa-language"></i> আরবি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি দ্বিতীয় পত্র"><span><i class="fas fa-language"></i> আরবি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি সাহিত্য"><span><i class="fas fa-pen-fancy"></i> আরবি সাহিত্য</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বালাগাত ও মানতিক"><span><i class="fas fa-brain"></i> বালাগাত ও মানতিক</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বাংলা প্রথম পত্র"><span><i class="fas fa-font"></i> বাংলা প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="বাংলা দ্বিতীয় পত্র"><span><i class="fas fa-font"></i> বাংলা দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইংরেজি প্রথম পত্র"><span><i class="fas fa-font"></i> ইংরেজি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইংরেজি দ্বিতীয় পত্র"><span><i class="fas fa-font"></i> ইংরেজি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="ইসলামের ইতিহাস"><span><i class="fas fa-landmark"></i> ইসলামের ইতিহাস</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="তথ্য ও যোগাযোগ প্রযুক্তি"><span><i class="fas fa-laptop-code"></i> তথ্য ও যোগাযোগ প্রযুক্তি</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান প্রথম পত্র"><span><i class="fas fa-atom"></i> পদার্থবিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পদার্থবিজ্ঞান দ্বিতীয় পত্র"><span><i class="fas fa-atom"></i> পদার্থবিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="রসায়ন প্রথম পত্র"><span><i class="fas fa-flask"></i> রসায়ন প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="রসায়ন দ্বিতীয় পত্র"><span><i class="fas fa-flask"></i> রসায়ন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান প্রথম পত্র"><span><i class="fas fa-dna"></i> জীববিজ্ঞান প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান দ্বিতীয় পত্র"><span><i class="fas fa-dna"></i> জীববিজ্ঞান দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="অর্থনীতি প্রথম পত্র"><span><i class="fas fa-chart-line"></i> অর্থনীতি প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="অর্থনীতি দ্বিতীয় পত্র"><span><i class="fas fa-chart-line"></i> অর্থনীতি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন প্রথম পত্র"><span><i class="fas fa-landmark"></i> পৌরনীতি ও সুশাসন প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন দ্বিতীয় পত্র"><span><i class="fas fa-landmark"></i> পৌরনীতি ও সুশাসন দ্বিতীয় পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত প্রথম পত্র"><span><i class="fas fa-square-root-alt"></i> উচ্চতর গণিত প্রথম পত্র</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত দ্বিতীয় পত্র"><span><i class="fas fa-square-root-alt"></i> উচ্চতর গণিত দ্বিতীয় পত্র</span><span class="go">Open</span></a>
       </div>
     </main>
 
-    <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
+    <footer>© 2025 Alim 26 Topper's Roadmap Pro Batch (BOM) | All Rights Reserved</footer>
   </div>
 
   <!-- সাবজেক্ট পৃষ্ঠা (প্রথমে লুকানো) -->
   <div id="subject-page" style="display: none;">
     <header>
       <nav class="nav container">
-        <a class="brand back-button" href="#">← All Subjects</a>
+        <a class="brand back-button" href="#"><i class="fas fa-arrow-left"></i> All Subjects</a>
         <div class="controls">
           <input id="search" type="search" placeholder="🔍 সার্চ...">
           <select id="sort">
@@ -230,10 +689,10 @@
       </nav>
     </header>
     <main class="container">
-      <h2 id="subject-title">📘 সাবজেক্ট</h2>
+      <h2 id="subject-title"><i class="fas fa-book"></i> সাবজেক্ট</h2>
       <div id="classGrid" class="grid"></div>
     </main>
-    <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
+    <footer>© 2025 Alim 26 Topper's Roadmap Pro Batch (BOM) | All Rights Reserved</footer>
   </div>
 
   <div id="notification" class="notification"></div>
@@ -259,7 +718,7 @@
     // নোটিফিকেশন দেখানোর ফাংশন
     function showNotification(message, isError = false) {
       const notification = $('#notification');
-      notification.textContent = message;
+      notification.innerHTML = `<i class="${isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle'}"></i> ${message}`;
       notification.className = 'notification ' + (isError ? 'error' : 'success');
       notification.classList.add('show');
       
@@ -360,10 +819,10 @@
         const card = document.createElement('div');
         card.className = isPinned ? 'card pinned' : 'card';
         card.innerHTML = `
-          <div class="subject">${r.subject || 'Unknown Subject'} <span style="font-size: 12px; color: var(--muted);">#${r.serial}</span></div>
+          <div class="subject"><i class="fas fa-book"></i> ${r.subject || 'Unknown Subject'} <span style="font-size: 12px; color: var(--muted);">#${r.serial}</span></div>
           <div class="video-title">${r.title || 'ক্লাস ভিডিও'}</div>
-          <div class="time">⏰ ${r.time || ''} | ${formatDateToBangla(r.date) || ''}</div>
-          <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}">Watch Now</a>
+          <div class="time"><i class="fas fa-clock"></i> ${r.time || ''} | ${formatDateToBangla(r.date) || ''}</div>
+          <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}"><i class="fas fa-play-circle"></i> Watch Now</a>
         `;
         root.appendChild(card);
       });
@@ -385,7 +844,7 @@
     // সাবজেক্ট পৃষ্ঠা দেখানো
     function showSubjectPage(subject) {
       currentSubject = subject;
-      $('#subject-title').textContent = '📘 ' + subject;
+      $('#subject-title').innerHTML = `<i class="fas fa-book"></i> ${subject}`;
       mainPage.style.display = 'none';
       subjectPage.style.display = 'block';
       loadSubjectData(subject);
@@ -497,6 +956,14 @@
       if (subjectParam) {
         showSubjectPage(subjectParam);
       }
+      
+      // ফেড ইন অ্যানিমেশন
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+      }, 100);
     });
   </script>
 </body>
