@@ -128,13 +128,14 @@
     <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
   </div>
 
-  <script>
+
+    <script>
     // =========================
     // JavaScript কোড
     // =========================
     
     // এখানে তোমার Google Apps Script Web App URL বসাও:
-    const API_URL = https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec
+    const API_URL = "https://script.google.com/macros/s/AKfycbzUfdGeMG9GhZfVucJR5Y7Dit0As3jkmkuEkR7yXJXte6VbunDLFTFgX7shoCX2DWxtJw/exec";
     
     // DOM হেল্পার ফাংশন
     function $(sel, root=document){ return root.querySelector(sel); }
@@ -144,21 +145,51 @@
     let currentSubject = null;
     const mainPage = $('#main-page');
     const subjectPage = $('#subject-page');
+    let allClasses = [];
+
+    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
+    function getTodayDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0]; // YYYY-MM-DD ফরম্যাট
+    }
+
+    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      
+      // যদি তারিখটি YYYY-MM-DD ফরম্যাটে থাকে
+      if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        return dateStr;
+      }
+      
+      // অন্যান্য ফরম্যাটের জন্য, আমরা শুধু তারিখ অংশটি নেব
+      const date = new Date(dateStr);
+      if (isNaN(date)) return dateStr;
+      
+      return date.toISOString().split('T')[0];
+    }
 
     // ডেটা ফেচ করা
     async function fetchData(){
-      if(!API_URL || API_URL === https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec){
+      if(!API_URL || API_URL === "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE"){
         console.warn("Set API_URL in assets/config.js");
-        alert("দয়া করে Google Apps Script URL কনফিগার করুন।");
         return [];
       }
       try {
+        // Loading state দেখানোর জন্য
+        $('#today-classes').innerHTML = '<div class="card"><div class="subject">ডেটা লোড হচ্ছে...</div></div>';
+        
         const res = await fetch(API_URL);
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
         const json = await res.json();
         return json;
       } catch (error) {
         console.error("ডেটা লোড করতে সমস্যা:", error);
-        alert("ডেটা লোড করতে সমস্যা হচ্ছে। দয়া করে পরে চেষ্টা করুন।");
+        // Error message দেখানো কিন্তু ওয়েবসাইট কাজ করতে থাকবে
         return [];
       }
     }
@@ -166,30 +197,37 @@
     // ডেটা নরমালাইজ করা
     function normalizeRow(row){
       return {
-        link: row['লিংক'] ?? row['Link'] ?? row['link'] ?? '',
-        subject: row['সাবজেক্ট নেম'] ?? row['Subject Name'] ?? row['subject'] ?? '',
-        time: row['সময়'] ?? row['Time'] ?? row['time'] ?? ''
+        link: row['link'] || row['লিংক'] || row['Link'] || '',
+        subject: row['subject'] || row['সাবজেক্ট নেম'] || row['Subject Name'] || '',
+        time: row['time'] || row['সময়'] || row['Time'] || '',
+        date: formatDate(row['date'] || row['তারিখ'] || row['Date'] || '')
       };
     }
 
     // কার্ড রেন্ডার করা
-    function renderCards(rows, root){
-      root.innerHTML = '';
+    function renderCards(rows, root, isPinned = false){
       if (rows.length === 0) {
-        root.innerHTML = '<div class="card"><div class="subject">কোন ক্লাস পাওয়া যায়নি</div><div class="time">দয়া করে পরে চেষ্টা করুন</div></div>';
+        root.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>কোন ক্লাস পাওয়া যায়নি</p></div>';
         return;
       }
       
+      root.innerHTML = '';
       rows.forEach(r => {
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = isPinned ? 'card pinned' : 'card';
         card.innerHTML = `
           <div class="subject">${r.subject || 'Unknown Subject'}</div>
-          <div class="time">⏰ ${r.time || ''}</div>
+          <div class="time">⏰ ${r.time || ''} ${r.date ? `| ${r.date}` : ''}</div>
           <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}">Watch Now</a>
         `;
         root.appendChild(card);
       });
+    }
+
+    // আজকের ক্লাস ফিল্টার করা
+    function filterTodayClasses(classes) {
+      const today = getTodayDate();
+      return classes.filter(cls => cls.date === today);
     }
 
     // সময় অনুযায়ী সাজানো
@@ -225,11 +263,7 @@
       
       grid.innerHTML = '<div class="card"><div class="subject">লোড হচ্ছে...</div></div>';
       
-      let rows = (await fetchData()).map(normalizeRow);
-      
-      if(subject){
-        rows = rows.filter(r => String(r.subject).trim() === subject);
-      }
+      let rows = allClasses.filter(r => String(r.subject).trim() === subject);
       
       rows = sortByTime(rows, 'desc');
       renderCards(rows, grid);
@@ -238,7 +272,9 @@
       searchInput.addEventListener('input', ()=>{
         const q = searchInput.value.toLowerCase();
         const filtered = rows.filter(r =>
-          (r.subject||'').toLowerCase().includes(q) || (r.time||'').toLowerCase().includes(q)
+          (r.subject||'').toLowerCase().includes(q) || 
+          (r.time||'').toLowerCase().includes(q) ||
+          (r.date||'').toLowerCase().includes(q)
         );
         renderCards(filtered, grid);
       });
@@ -249,6 +285,18 @@
         const sorted = sortByTime(rows, order);
         renderCards(sorted, grid);
       });
+    }
+
+    // আজকের ক্লাস লোড করা
+    function loadTodayClasses() {
+      const todayContainer = $('#today-classes');
+      const todayClasses = filterTodayClasses(allClasses);
+      
+      if (todayClasses.length > 0) {
+        renderCards(todayClasses, todayContainer, true);
+      } else {
+        todayContainer.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p></div>';
+      }
     }
 
     // ইভেন্ট লিসেনার সেটআপ
@@ -281,9 +329,25 @@
       }
     }
 
+    // প্রাথমিক ডেটা লোড
+    async function loadInitialData() {
+      try {
+        const data = await fetchData();
+        allClasses = data.map(normalizeRow);
+        
+        // আজকের ক্লাস লোড করুন
+        loadTodayClasses();
+      } catch (error) {
+        console.error("ডেটা লোড করতে ব্যর্থ:", error);
+        // Error message দেখানো কিন্তু ওয়েবসাইট কাজ করতে থাকবে
+        $('#today-classes').innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>ডেটা লোড করতে সমস্যা হচ্ছে</p></div>';
+      }
+    }
+
     // পেজ লোড হলে ইনিশিয়ালাইজেশন
     document.addEventListener('DOMContentLoaded', ()=>{
       setupEventListeners();
+      loadInitialData();
       
       // URL চেক করে সরাসরি সাবজেক্ট পেজে যাওয়ার জন্য
       const urlParams = new URLSearchParams(window.location.search);
@@ -292,6 +356,7 @@
         showSubjectPage(subjectParam);
       }
     });
-  </script>
+    </script>
+
 </body>
 </html>
