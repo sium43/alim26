@@ -134,7 +134,7 @@
     // =========================
     
     // এখানে তোমার Google Apps Script Web App URL বসাও:
-    const API_URL = "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE";
+    const API_URL = https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec
     
     // DOM হেল্পার ফাংশন
     function $(sel, root=document){ return root.querySelector(sel); }
@@ -147,7 +147,7 @@
 
     // ডেটা ফেচ করা
     async function fetchData(){
-      if(!API_URL || API_URL === "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE"){
+      if(!API_URL || API_URL === https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec){
         console.warn("Set API_URL in assets/config.js");
         alert("দয়া করে Google Apps Script URL কনফিগার করুন।");
         return [];
