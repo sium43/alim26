@@ -17,8 +17,6 @@
       --accent1:#22d3ee;
       --accent2:#10b981;
       --border:#273043;
-      --pinned-bg: rgba(34, 211, 238, 0.1);
-      --pinned-border: rgba(34, 211, 238, 0.3);
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
@@ -48,23 +46,6 @@
       transition:transform .2s, border-color .2s;
     }
     .card:hover{transform:translateY(-4px);border-color:#2b5cff}
-    .card.pinned {
-      background: var(--pinned-bg);
-      border: 2px solid var(--pinned-border);
-      position: relative;
-    }
-    .card.pinned::before {
-      content: "আজকের ক্লাস";
-      position: absolute;
-      top: -10px;
-      right: 12px;
-      background: linear-gradient(90deg,var(--accent1),var(--accent2));
-      color: #001015;
-      font-weight: bold;
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
     .subject{font-weight:700;margin-bottom:8px;color:#7ecbff}
     .time{color:var(--muted);font-size:.95rem;margin-bottom:12px}
     .btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid transparent;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
@@ -77,34 +58,6 @@
     footer{opacity:.7;margin:24px 0;text-align:center;font-size:.9rem}
     .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
     .back-btn {display: inline-block; margin-bottom: 20px; padding: 8px 16px; background: var(--card); border-radius: 8px;}
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .section-title::before {
-      content: "";
-      display: block;
-      width: 4px;
-      height: 24px;
-      background: linear-gradient(180deg,var(--accent1),var(--accent2));
-      border-radius: 4px;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-    }
-    .empty-state svg {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
   </style>
 </head>
 <body>
@@ -120,23 +73,7 @@
     </header>
 
     <main class="container">
-      <!-- আজকের ক্লাস সেকশন -->
-      <div class="section-title">
-        <h2>আজকের ক্লাস</h2>
-      </div>
-      <div id="today-classes" class="grid">
-        <div class="empty-state">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p>
-        </div>
-      </div>
-
-      <!-- সকল সাবজেক্ট সেকশন -->
-      <div class="section-title">
-        <h2>সব সাবজেক্ট</h2>
-      </div>
+      <h2>সাবজেক্ট নির্বাচন করুন</h2>
       <div class="subj-list">
         <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span>📘 কুরআন মাজীদ</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span>📘 হাদীস ও উসূলুল হাদীস</span><span class="go">Open</span></a>
@@ -188,9 +125,7 @@
       <h2 id="subject-title">📘 সাবজেক্ট</h2>
       <div id="classGrid" class="grid"></div>
     </main>
-    <footer>© 2025 Alim 26 Topper's Roadmap Pro Batch (BOM)</p>
-  <p>Crafted with care by .SIUM • Owned by Md Riad Hasan
-CEO & Founder of Bangladesh Online Madrasah</footer>
+    <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
   </div>
 
   <script>
@@ -199,8 +134,8 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
     // =========================
     
     // এখানে তোমার Google Apps Script Web App URL বসাও:
-    const API_URL = https://script.google.com/macros/s/AKfycbz191F6_VJzTsSnvRqh6_bPmuTjNH28Cas-dlENohVxJH8GOhEXtV0EOJ0Cw3y4ZFxghw/exec 
-        
+    const API_URL = "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE";
+    
     // DOM হেল্পার ফাংশন
     function $(sel, root=document){ return root.querySelector(sel); }
     function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
@@ -209,29 +144,6 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
     let currentSubject = null;
     const mainPage = $('#main-page');
     const subjectPage = $('#subject-page');
-    let allClasses = [];
-
-    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
-    function getTodayDate() {
-      const today = new Date();
-      return today.toISOString().split('T')[0]; // YYYY-MM-DD ফরম্যাট
-    }
-
-    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      
-      // যদি তারিখটি YYYY-MM-DD ফরম্যাটে থাকে
-      if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        return dateStr;
-      }
-      
-      // অন্যান্য ফরম্যাটের জন্য, আমরা শুধু তারিখ অংশটি নেব
-      const date = new Date(dateStr);
-      if (isNaN(date)) return dateStr;
-      
-      return date.toISOString().split('T')[0];
-    }
 
     // ডেটা ফেচ করা
     async function fetchData(){
@@ -256,35 +168,28 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
       return {
         link: row['লিংক'] ?? row['Link'] ?? row['link'] ?? '',
         subject: row['সাবজেক্ট নেম'] ?? row['Subject Name'] ?? row['subject'] ?? '',
-        time: row['সময়'] ?? row['Time'] ?? row['time'] ?? '',
-        date: formatDate(row['তারিখ'] ?? row['Date'] ?? row['date'] ?? '')
+        time: row['সময়'] ?? row['Time'] ?? row['time'] ?? ''
       };
     }
 
     // কার্ড রেন্ডার করা
-    function renderCards(rows, root, isPinned = false){
+    function renderCards(rows, root){
+      root.innerHTML = '';
       if (rows.length === 0) {
-        root.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>কোন ক্লাস পাওয়া যায়নি</p></div>';
+        root.innerHTML = '<div class="card"><div class="subject">কোন ক্লাস পাওয়া যায়নি</div><div class="time">দয়া করে পরে চেষ্টা করুন</div></div>';
         return;
       }
       
-      root.innerHTML = '';
       rows.forEach(r => {
         const card = document.createElement('div');
-        card.className = isPinned ? 'card pinned' : 'card';
+        card.className = 'card';
         card.innerHTML = `
           <div class="subject">${r.subject || 'Unknown Subject'}</div>
-          <div class="time">⏰ ${r.time || ''} ${r.date ? `| ${r.date}` : ''}</div>
+          <div class="time">⏰ ${r.time || ''}</div>
           <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}">Watch Now</a>
         `;
         root.appendChild(card);
       });
-    }
-
-    // আজকের ক্লাস ফিল্টার করা
-    function filterTodayClasses(classes) {
-      const today = getTodayDate();
-      return classes.filter(cls => cls.date === today);
     }
 
     // সময় অনুযায়ী সাজানো
@@ -320,7 +225,11 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
       
       grid.innerHTML = '<div class="card"><div class="subject">লোড হচ্ছে...</div></div>';
       
-      let rows = allClasses.filter(r => String(r.subject).trim() === subject);
+      let rows = (await fetchData()).map(normalizeRow);
+      
+      if(subject){
+        rows = rows.filter(r => String(r.subject).trim() === subject);
+      }
       
       rows = sortByTime(rows, 'desc');
       renderCards(rows, grid);
@@ -329,9 +238,7 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
       searchInput.addEventListener('input', ()=>{
         const q = searchInput.value.toLowerCase();
         const filtered = rows.filter(r =>
-          (r.subject||'').toLowerCase().includes(q) || 
-          (r.time||'').toLowerCase().includes(q) ||
-          (r.date||'').toLowerCase().includes(q)
+          (r.subject||'').toLowerCase().includes(q) || (r.time||'').toLowerCase().includes(q)
         );
         renderCards(filtered, grid);
       });
@@ -342,18 +249,6 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
         const sorted = sortByTime(rows, order);
         renderCards(sorted, grid);
       });
-    }
-
-    // আজকের ক্লাস লোড করা
-    function loadTodayClasses() {
-      const todayContainer = $('#today-classes');
-      const todayClasses = filterTodayClasses(allClasses);
-      
-      if (todayClasses.length > 0) {
-        renderCards(todayClasses, todayContainer, true);
-      } else {
-        todayContainer.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p></div>';
-      }
     }
 
     // ইভেন্ট লিসেনার সেটআপ
@@ -386,19 +281,9 @@ CEO & Founder of Bangladesh Online Madrasah</footer>
       }
     }
 
-    // প্রাথমিক ডেটা লোড
-    async function loadInitialData() {
-      const data = await fetchData();
-      allClasses = data.map(normalizeRow);
-      
-      // আজকের ক্লাস লোড করুন
-      loadTodayClasses();
-    }
-
     // পেজ লোড হলে ইনিশিয়ালাইজেশন
     document.addEventListener('DOMContentLoaded', ()=>{
       setupEventListeners();
-      loadInitialData();
       
       // URL চেক করে সরাসরি সাবজেক্ট পেজে যাওয়ার জন্য
       const urlParams = new URLSearchParams(window.location.search);
