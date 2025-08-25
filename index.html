@@ -17,6 +17,8 @@
       --accent1:#22d3ee;
       --accent2:#10b981;
       --border:#273043;
+      --pinned-bg: rgba(34, 211, 238, 0.1);
+      --pinned-border: rgba(34, 211, 238, 0.3);
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
@@ -46,6 +48,23 @@
       transition:transform .2s, border-color .2s;
     }
     .card:hover{transform:translateY(-4px);border-color:#2b5cff}
+    .card.pinned {
+      background: var(--pinned-bg);
+      border: 2px solid var(--pinned-border);
+      position: relative;
+    }
+    .card.pinned::before {
+      content: "আজকের ক্লাস";
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      color: #001015;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
     .subject{font-weight:700;margin-bottom:8px;color:#7ecbff}
     .time{color:var(--muted);font-size:.95rem;margin-bottom:12px}
     .btn{display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid transparent;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#001015;font-weight:700}
@@ -58,6 +77,79 @@
     footer{opacity:.7;margin:24px 0;text-align:center;font-size:.9rem}
     .controls{display:flex;gap:10px;align-items:center;margin-top:10px}
     .back-btn {display: inline-block; margin-bottom: 20px; padding: 8px 16px; background: var(--card); border-radius: 8px;}
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title::before {
+      content: "";
+      display: block;
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(180deg,var(--accent1),var(--accent2));
+      border-radius: 4px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--accent1);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .notification.error {
+      border-left: 4px solid #ff4757;
+    }
+    .notification.success {
+      border-left: 4px solid var(--accent2);
+    }
+    .card .video-title {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
@@ -73,7 +165,23 @@
     </header>
 
     <main class="container">
-      <h2>সাবজেক্ট নির্বাচন করুন</h2>
+      <!-- আজকের ক্লাস সেকশন -->
+      <div class="section-title">
+        <h2>আজকের ক্লাস</h2>
+      </div>
+      <div id="today-classes" class="grid">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p>আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p>
+        </div>
+      </div>
+
+      <!-- সকল সাবজেক্ট সেকশন -->
+      <div class="section-title">
+        <h2>সব সাবজেক্ট</h2>
+      </div>
       <div class="subj-list">
         <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span>📘 কুরআন মাজীদ</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span>📘 হাদীস ও উসূলুল হাদীস</span><span class="go">Open</span></a>
@@ -81,7 +189,7 @@
         <a class="pill subject-link" href="#" data-name="আল ফিকহ দ্বিতীয় পত্র"><span>📘 আল ফিকহ দ্বিতীয় পত্র</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="আরবি প্রথম পত্র"><span>📘 আরবি প্রথম পত্র</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="আরবি দ্বিতীয় পত্র"><span>📘 আরবি দ্বিতীয় পত্র</span><span class="go">Open</span></a>
-        <a class="pill subject-link" href="#" data-name="আরবি সাহিত্য (বিজ্ঞান ও মুজাব্বিদ মাহির বিভাগ)"><span>📘 আরবি সাহিত্য (বিজ্ঞান ও মুজাব্বিদ মাহির বিভাগ)</span><span class="go">Open</span></a>
+        <a class="pill subject-link" href="#" data-name="আরবি সাহিত্য"><span>📘 আরবি সাহিত্য</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="বালাগাত ও মানতিক"><span>📘 বালাগাত ও মানতিক</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="বাংলা প্রথম পত্র"><span>📘 বাংলা প্রথম পত্র</span><span class="go">Open</span></a>
         <a class="pill subject-link" href="#" data-name="বাংলা দ্বিতীয় পত্র"><span>📘 বাংলা দ্বিতীয় পত্র</span><span class="go">Open</span></a>
@@ -115,8 +223,8 @@
         <div class="controls">
           <input id="search" type="search" placeholder="🔍 সার্চ...">
           <select id="sort">
-            <option value="desc">Newest</option>
-            <option value="asc">Oldest</option>
+            <option value="desc">নতুন থেকে পুরানো</option>
+            <option value="asc">পুরানো থেকে নতুন</option>
           </select>
         </div>
       </nav>
@@ -128,14 +236,15 @@
     <footer>© Alim 26 Topper's Roadmap Pro Batch (BOM)</footer>
   </div>
 
+  <div id="notification" class="notification"></div>
 
-    <script>
+  <script>
     // =========================
-    // JavaScript কোড
+    // JavaScript কোড - Google Sheets সংযোগ সহ
     // =========================
     
-    // এখানে তোমার Google Apps Script Web App URL বসাও:
-    const API_URL = "https://script.google.com/macros/s/AKfycbzUfdGeMG9GhZfVucJR5Y7Dit0As3jkmkuEkR7yXJXte6VbunDLFTFgX7shoCX2DWxtJw/exec";
+    // আপনার Google Apps Script Web App URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbwuCA_GM1XjkheZ-WNQH49xkSo-dBcm6RXstKi63fB6EDj9zOCS_h8wrcxb4lJ2unTu/exec";
     
     // DOM হেল্পার ফাংশন
     function $(sel, root=document){ return root.querySelector(sel); }
@@ -147,60 +256,95 @@
     const subjectPage = $('#subject-page');
     let allClasses = [];
 
-    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
-    function getTodayDate() {
-      const today = new Date();
-      return today.toISOString().split('T')[0]; // YYYY-MM-DD ফরম্যাট
+    // নোটিফিকেশন দেখানোর ফাংশন
+    function showNotification(message, isError = false) {
+      const notification = $('#notification');
+      notification.textContent = message;
+      notification.className = 'notification ' + (isError ? 'error' : 'success');
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
     }
 
-    // তারিখ ফরম্যাট করা (বাংলা তারিখের জন্য)
-    function formatDate(dateStr) {
+    // তারিখ ফরম্যাট করা
+    function getTodayDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    // বাংলা মাসের নাম
+    const banglaMonths = [
+      'জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
+      'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
+    ];
+
+    // তারিখ ফরম্যাট করা (বাংলা ফরম্যাটে)
+    function formatDateToBangla(dateStr) {
       if (!dateStr) return '';
       
-      // যদি তারিখটি YYYY-MM-DD ফরম্যাটে থাকে
-      if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      try {
+        const date = new Date(dateStr);
+        if (isNaN(date)) return dateStr;
+        
+        const day = date.getDate();
+        const month = banglaMonths[date.getMonth()];
+        const year = date.getFullYear();
+        
+        return `${day} ${month}, ${year}`;
+      } catch (error) {
+        console.error("Date formatting error:", error, dateStr);
         return dateStr;
       }
-      
-      // অন্যান্য ফরম্যাটের জন্য, আমরা শুধু তারিখ অংশটি নেব
-      const date = new Date(dateStr);
-      if (isNaN(date)) return dateStr;
-      
-      return date.toISOString().split('T')[0];
     }
 
     // ডেটা ফেচ করা
     async function fetchData(){
-      if(!API_URL || API_URL === "YOUR_GOOGLE_APPS_SCRIPT_API_URL_HERE"){
-        console.warn("Set API_URL in assets/config.js");
-        return [];
-      }
       try {
-        // Loading state দেখানোর জন্য
-        $('#today-classes').innerHTML = '<div class="card"><div class="subject">ডেটা লোড হচ্ছে...</div></div>';
-        
-        const res = await fetch(API_URL);
+        // CORS সমস্যা সমাধানের জন্য proxy ব্যবহার
+        const proxyUrl = 'https://corsproxy.io/?';
+        const res = await fetch(proxyUrl + encodeURIComponent(API_URL));
         
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         
         const json = await res.json();
+        showNotification("ডেটা সফলভাবে লোড হয়েছে!");
         return json;
       } catch (error) {
         console.error("ডেটা লোড করতে সমস্যা:", error);
-        // Error message দেখানো কিন্তু ওয়েবসাইট কাজ করতে থাকবে
+        showNotification("ডেটা লোড করতে সমস্যা হচ্ছে", true);
         return [];
       }
     }
 
     // ডেটা নরমালাইজ করা
-    function normalizeRow(row){
-      return {
-        link: row['link'] || row['লিংক'] || row['Link'] || '',
-        subject: row['subject'] || row['সাবজেক্ট নেম'] || row['Subject Name'] || '',
-        time: row['time'] || row['সময়'] || row['Time'] || '',
-        date: formatDate(row['date'] || row['তারিখ'] || row['Date'] || '')
+    function normalizeRow(row, index){
+      // Google Sheets থেকে ডেটা নরমালাইজ করা
+      const subject = row['subject'] || row['সাবজেক্ট'] || row['Subject'] || '';
+      const link = row['link'] || row['লিংক'] || row['Link'] || '';
+      const title = row['title'] || row['ভিডিও টাইটেল'] || row['Video Title'] || '';
+      
+      // স্বয়ংক্রিয়ভাবে তারিখ এবং সময় জেনারেট করা
+      const now = new Date();
+      const pastDate = new Date();
+      pastDate.setDate(now.getDate() - index);
+      
+      const date = getTodayDate();
+      const time = `${(pastDate.getHours() % 12 || 12)}:${String(pastDate.getMinutes()).padStart(2, '0')} ${pastDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+      
+      return { 
+        subject: subject.trim(), 
+        link: link.trim(), 
+        title: title.trim(),
+        date: date,
+        time: time,
+        serial: index + 1
       };
     }
 
@@ -216,8 +360,9 @@
         const card = document.createElement('div');
         card.className = isPinned ? 'card pinned' : 'card';
         card.innerHTML = `
-          <div class="subject">${r.subject || 'Unknown Subject'}</div>
-          <div class="time">⏰ ${r.time || ''} ${r.date ? `| ${r.date}` : ''}</div>
+          <div class="subject">${r.subject || 'Unknown Subject'} <span style="font-size: 12px; color: var(--muted);">#${r.serial}</span></div>
+          <div class="video-title">${r.title || 'ক্লাস ভিডিও'}</div>
+          <div class="time">⏰ ${r.time || ''} | ${formatDateToBangla(r.date) || ''}</div>
           <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}">Watch Now</a>
         `;
         root.appendChild(card);
@@ -233,9 +378,7 @@
     // সময় অনুযায়ী সাজানো
     function sortByTime(rows, order='desc'){
       return rows.slice().sort((a,b)=>{
-        const ta = Date.parse(a.time) || 0;
-        const tb = Date.parse(b.time) || 0;
-        return order === 'asc' ? (ta - tb) : (tb - ta);
+        return order === 'asc' ? a.serial - b.serial : b.serial - a.serial;
       });
     }
 
@@ -261,7 +404,7 @@
       const searchInput = $('#search');
       const sortSelect = $('#sort');
       
-      grid.innerHTML = '<div class="card"><div class="subject">লোড হচ্ছে...</div></div>';
+      grid.innerHTML = '<div class="card"><div class="subject">লোড হচ্ছে... <span class="loading"></span></div></div>';
       
       let rows = allClasses.filter(r => String(r.subject).trim() === subject);
       
@@ -273,6 +416,7 @@
         const q = searchInput.value.toLowerCase();
         const filtered = rows.filter(r =>
           (r.subject||'').toLowerCase().includes(q) || 
+          (r.title||'').toLowerCase().includes(q) ||
           (r.time||'').toLowerCase().includes(q) ||
           (r.date||'').toLowerCase().includes(q)
         );
@@ -331,17 +475,15 @@
 
     // প্রাথমিক ডেটা লোড
     async function loadInitialData() {
-      try {
-        const data = await fetchData();
-        allClasses = data.map(normalizeRow);
-        
-        // আজকের ক্লাস লোড করুন
-        loadTodayClasses();
-      } catch (error) {
-        console.error("ডেটা লোড করতে ব্যর্থ:", error);
-        // Error message দেখানো কিন্তু ওয়েবসাইট কাজ করতে থাকবে
-        $('#today-classes').innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>ডেটা লোড করতে সমস্যা হচ্ছে</p></div>';
-      }
+      // লোডিং স্টেট দেখান
+      const todayContainer = $('#today-classes');
+      todayContainer.innerHTML = '<div class="card"><div class="subject">ডেটা লোড হচ্ছে... <span class="loading"></span></div></div>';
+      
+      const data = await fetchData();
+      allClasses = data.map((row, index) => normalizeRow(row, index));
+      
+      // আজকের ক্লাস লোড করুন
+      loadTodayClasses();
     }
 
     // পেজ লোড হলে ইনিশিয়ালাইজেশন
@@ -356,7 +498,6 @@
         showSubjectPage(subjectParam);
       }
     });
-    </script>
-
+  </script>
 </body>
 </html>
