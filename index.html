@@ -697,7 +697,7 @@
 
   <div id="notification" class="notification"></div>
 
-  <script>
+    <script>
     // =========================
     // JavaScript কোড - Google Sheets সংযোগ সহ
     // =========================
@@ -727,7 +727,74 @@
       }, 3000);
     }
 
-    // তারিখ ফরম্যাট করা
+    // টাইমস্ট্যাম্প থেকে তারিখ বের করা
+    function getDateFromTimestamp(timestamp) {
+      if (!timestamp) return getTodayDate();
+      
+      try {
+        // টাইমস্ট্যাম্প স্ট্রিং কিনা চেক করুন
+        if (typeof timestamp === 'string') {
+          // Google Sheets টাইমস্ট্যাম্প ফরম্যাট (e.g., "8/26/2025 15:38:25")
+          const dateParts = timestamp.split(' ')[0].split('/');
+          if (dateParts.length === 3) {
+            const month = dateParts[0].padStart(2, '0');
+            const day = dateParts[1].padStart(2, '0');
+            const year = dateParts[2];
+            return `${year}-${month}-${day}`;
+          }
+          
+          // অন্য ফরম্যাটের জন্য
+          const date = new Date(timestamp);
+          if (!isNaN(date)) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+          }
+        }
+        
+        return getTodayDate();
+      } catch (error) {
+        console.error("Timestamp parsing error:", error, timestamp);
+        return getTodayDate();
+      }
+    }
+
+    // টাইমস্ট্যাম্প থেকে সময় বের করা
+    function getTimeFromTimestamp(timestamp) {
+      if (!timestamp) return '3:37 PM';
+      
+      try {
+        if (typeof timestamp === 'string') {
+          // Google Sheets টাইমস্ট্যাম্প ফরম্যাট থেকে সময় বের করুন
+          const timePart = timestamp.split(' ')[1];
+          if (timePart) {
+            const [hours, minutes] = timePart.split(':');
+            const hourInt = parseInt(hours);
+            const period = hourInt >= 12 ? 'PM' : 'AM';
+            const hour12 = hourInt % 12 || 12;
+            return `${hour12}:${minutes} ${period}`;
+          }
+          
+          // অন্য ফরম্যাটের জন্য
+          const date = new Date(timestamp);
+          if (!isNaN(date)) {
+            const hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const hour12 = hours % 12 || 12;
+            return `${hour12}:${minutes} ${period}`;
+          }
+        }
+        
+        return '3:37 PM';
+      } catch (error) {
+        console.error("Time parsing error:", error, timestamp);
+        return '3:37 PM';
+      }
+    }
+
+    // আজকের তারিখ ফরম্যাট করা
     function getTodayDate() {
       const today = new Date();
       const year = today.getFullYear();
@@ -747,55 +814,72 @@
       if (!dateStr) return '';
       
       try {
-        const date = new Date(dateStr);
-        if (isNaN(date)) return dateStr;
+        // যদি তারিখ স্ট্রিং ইতিমধ্যে YYYY-MM-DD ফরম্যাটে থাকে
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+          const [year, month, day] = dateStr.split('-');
+          return `${parseInt(day)} ${banglaMonths[parseInt(month) - 1]}, ${year}`;
+        }
         
-        const day = date.getDate();
-        const month = banglaMonths[date.getMonth()];
-        const year = date.getFullYear();
-        
-        return `${day} ${month}, ${year}`;
+        return dateStr;
       } catch (error) {
         console.error("Date formatting error:", error, dateStr);
         return dateStr;
       }
     }
 
-    // ডেটা ফেচ করা
+    // ডেটা ফেচ করা - CORS সমস্যা সমাধান
     async function fetchData(){
       try {
-        // CORS সমস্যা সমাধানের জন্য proxy ব্যবহার
-        const proxyUrl = 'https://corsproxy.io/?';
-        const res = await fetch(proxyUrl + encodeURIComponent(API_URL));
+        // সরাসরি API কল করার চেষ্টা করুন
+        const res = await fetch(API_URL, {
+          mode: 'cors',
+          redirect: 'follow'
+        });
         
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         
-        const json = await res.json();
+        const text = await res.text();
+        let json;
+        
+        try {
+          json = JSON.parse(text);
+        } catch (e) {
+          // JSON পার্স করতে ব্যর্থ হলে, সরাসরি টেক্সট ব্যবহার করুন
+          console.error("JSON parse error:", e);
+          showNotification("ডেটা ফরম্যাটে সমস্যা", true);
+          return [];
+        }
+        
         showNotification("ডেটা সফলভাবে লোড হয়েছে!");
         return json;
       } catch (error) {
         console.error("ডেটা লোড করতে সমস্যা:", error);
-        showNotification("ডেটা লোড করতে সমস্যা হচ্ছে", true);
-        return [];
+        
+        // ফallback ডেটা - যখন API কাজ করছে না
+        const fallbackData = [
+          { timestamp: new Date().toString(), subject: "কুরআন মাজীদ", title: "সূরা ফাতিহার তাফসীর", link: "https://www.youtube.com/embed/example1" },
+          { timestamp: new Date().toString(), subject: "হাদীস ও উসূলুল হাদীস", title: "হাদীসের পরিচয় ও গুরুত্ব", link: "https://www.youtube.com/embed/example2" },
+          { timestamp: new Date().toString(), subject: "আল ফিকহ প্রথম পত্র", title: "ইবাদতের মৌলিক নীতিমালা", link: "https://www.youtube.com/embed/example3" }
+        ];
+        
+        showNotification("ডেমো ডেটা লোড করা হয়েছে", true);
+        return fallbackData;
       }
     }
 
-    // ডেটা নরমালাইজ করা
+    // ডেটা নরমালাইজ করা - টাইমস্ট্যাম্প ব্যবহার করে
     function normalizeRow(row, index){
       // Google Sheets থেকে ডেটা নরমালাইজ করা
-      const subject = row['subject'] || row['সাবজেক্ট'] || row['Subject'] || '';
-      const link = row['link'] || row['লিংক'] || row['Link'] || '';
-      const title = row['title'] || row['ভিডিও টাইটেল'] || row['Video Title'] || '';
+      const timestamp = row['timestamp'] || row['Timestamp'] || row['time'] || '';
+      const subject = row['subject'] || row['সাবজেক্ট'] || row['Subject'] || 'Unknown Subject';
+      const link = row['link'] || row['লিংক'] || row['Link'] || '#';
+      const title = row['title'] || row['ভিডিও টাইটেল'] || row['Video Title'] || 'ক্লাস ভিডিও';
       
-      // স্বয়ংক্রিয়ভাবে তারিখ এবং সময় জেনারেট করা
-      const now = new Date();
-      const pastDate = new Date();
-      pastDate.setDate(now.getDate() - index);
-      
-      const date = getTodayDate();
-      const time = `${(pastDate.getHours() % 12 || 12)}:${String(pastDate.getMinutes()).padStart(2, '0')} ${pastDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+      // টাইমস্ট্যাম্প থেকে তারিখ ও সময় বের করুন
+      const date = getDateFromTimestamp(timestamp);
+      const time = getTimeFromTimestamp(timestamp);
       
       return { 
         subject: subject.trim(), 
@@ -809,7 +893,7 @@
 
     // কার্ড রেন্ডার করা
     function renderCards(rows, root, isPinned = false){
-      if (rows.length === 0) {
+      if (!rows || rows.length === 0) {
         root.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p>কোন ক্লাস পাওয়া যায়নি</p></div>';
         return;
       }
@@ -819,10 +903,10 @@
         const card = document.createElement('div');
         card.className = isPinned ? 'card pinned' : 'card';
         card.innerHTML = `
-          <div class="subject"><i class="fas fa-book"></i> ${r.subject || 'Unknown Subject'} <span style="font-size: 12px; color: var(--muted);">#${r.serial}</span></div>
-          <div class="video-title">${r.title || 'ক্লাস ভিডিও'}</div>
-          <div class="time"><i class="fas fa-clock"></i> ${r.time || ''} | ${formatDateToBangla(r.date) || ''}</div>
-          <a class="btn" target="_blank" rel="noopener" href="${r.link || '#'}"><i class="fas fa-play-circle"></i> Watch Now</a>
+          <div class="subject"><i class="fas fa-book"></i> ${r.subject} <span style="font-size: 12px; color: var(--muted);">#${r.serial}</span></div>
+          <div class="video-title">${r.title}</div>
+          <div class="time"><i class="fas fa-clock"></i> ${r.time} | ${formatDateToBangla(r.date)}</div>
+          <a class="btn" target="_blank" rel="noopener" href="${r.link}"><i class="fas fa-play-circle"></i> Watch Now</a>
         `;
         root.appendChild(card);
       });
@@ -836,6 +920,7 @@
 
     // সময় অনুযায়ী সাজানো
     function sortByTime(rows, order='desc'){
+      if (!rows) return [];
       return rows.slice().sort((a,b)=>{
         return order === 'asc' ? a.serial - b.serial : b.serial - a.serial;
       });
@@ -858,7 +943,7 @@
     }
 
     // সাবজেক্ট ডেটা লোড করা
-    async function loadSubjectData(subject) {
+    function loadSubjectData(subject) {
       const grid = $('#classGrid');
       const searchInput = $('#search');
       const sortSelect = $('#sort');
@@ -965,6 +1050,7 @@
         });
       }, 100);
     });
-  </script>
+    </script>              
+      
 </body>
 </html>
