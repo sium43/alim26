@@ -99,12 +99,12 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       font-size: 1.6rem;
-      color: var(--text); /* পরিষ্কার টেক্সট কালার */
+      color: var(--text);
       position: relative;
     }
 
     .brand:hover {
-      color: var(--primary); /* হোভারে কালার পরিবর্তন */
+      color: var(--primary);
     }
 
     .tag {
@@ -255,6 +255,57 @@
     }
 
     /* =========================
+    TODAY'S CLASSES TABLE
+    ========================= */
+    .today-classes-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      font-size: 0.85rem;
+    }
+
+    .today-classes-table th {
+      background: var(--gradient-primary);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .today-classes-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .today-classes-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .today-classes-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .subject-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .class-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================
     CARDS & GRID
     ========================= */
     .grid {
@@ -268,12 +319,13 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 20px;
       backdrop-filter: blur(12px);
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      font-size: 0.9rem;
     }
 
     .card::before {
@@ -287,78 +339,46 @@
     }
 
     .card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-5px);
       border-color: var(--primary);
       box-shadow: var(--shadow-lg);
     }
 
-    .card.pinned {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
-      border: 1px solid rgba(37, 99, 235, 0.3);
-      position: relative;
-    }
-
-    .card.pinned::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
-      z-index: -1;
-      border-radius: 16px;
-    }
-
-    .card.pinned::before {
-      content: "আজকের ক্লাস";
-      position: absolute;
-      top: -12px;
-      right: 20px;
-      background: var(--gradient-primary);
-      color: white;
-      font-weight: bold;
-      font-size: 12px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-      z-index: 2;
-    }
-
     .subject {
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: #7ecbff;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .time {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
+      font-size: 1rem;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
+    .time {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-radius: 12px;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
       border: none;
       background: var(--gradient-primary);
       color: white;
       font-weight: 600;
       transition: var(--transition);
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
       position: relative;
       overflow: hidden;
+      font-size: 0.85rem;
     }
 
     .btn::before {
@@ -377,8 +397,8 @@
     }
 
     .btn:focus, .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
     }
 
     /* =========================
@@ -386,25 +406,26 @@
     ========================= */
     .subj-list {
       display: grid;
-      gap: 18px;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       margin-top: 30px;
     }
 
     .pill {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 18px 24px;
+      border-radius: 12px;
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       transition: var(--transition);
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      font-size: 0.9rem;
     }
 
     .pill::before {
@@ -420,7 +441,7 @@
     }
 
     .pill:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: var(--primary);
       box-shadow: var(--shadow-md);
     }
@@ -430,17 +451,17 @@
     }
 
     .pill .go {
-      padding: 8px 16px;
-      border-radius: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
       background: var(--gradient-primary);
       color: white;
       font-weight: 600;
       transition: var(--transition);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .pill:hover .go {
-      transform: translateX(4px);
+      transform: translateX(3px);
     }
 
     /* -------------------- Owner + Designer block styles -------------------- */
@@ -540,6 +561,15 @@
       .owner-name { font-size: 1.05rem; }
       .owner-messages { font-size: 11px; gap: 8px; }
       .designer-credit { font-size: 11px; }
+      
+      .today-classes-table {
+        font-size: 0.75rem;
+      }
+      
+      .today-classes-table th,
+      .today-classes-table td {
+        padding: 6px 8px;
+      }
     }
 
     /* =========================
@@ -555,19 +585,20 @@
     .back-button {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 25px;
-      padding: 12px 20px;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 10px 16px;
       background: var(--card-bg);
-      border-radius: 12px;
+      border-radius: 10px;
       transition: var(--transition);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(10px);
+      font-size: 0.9rem;
     }
 
     .back-button:hover {
       background: rgba(37, 99, 235, 0.1);
-      transform: translateX(-4px);
+      transform: translateX(-3px);
       border-color: var(--primary);
     }
 
@@ -577,10 +608,10 @@
     .section-title {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-top: 50px;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
+      gap: 12px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--card-border);
       position: relative;
     }
@@ -588,14 +619,14 @@
     .section-title::before {
       content: "";
       display: block;
-      width: 6px;
-      height: 32px;
+      width: 5px;
+      height: 28px;
       background: var(--gradient-primary);
-      border-radius: 6px;
+      border-radius: 5px;
     }
 
     .section-title h2 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
@@ -608,15 +639,16 @@
     ========================= */
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       color: var(--text-muted);
       grid-column: 1 / -1;
+      font-size: 0.9rem;
     }
 
     .empty-state svg {
-      width: 90px;
-      height: 90px;
-      margin-bottom: 20px;
+      width: 70px;
+      height: 70px;
+      margin-bottom: 15px;
       opacity: 0.5;
     }
 
@@ -625,9 +657,9 @@
     ========================= */
     .loading {
       display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
       border-top-color: var(--primary);
       animation: spin 1s ease-in-out infinite;
@@ -644,10 +676,10 @@
       position: fixed;
       bottom: 30px;
       right: 30px;
-      padding: 18px 28px;
+      padding: 15px 22px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: var(--shadow-lg);
       z-index: 1000;
       opacity: 0;
@@ -656,8 +688,9 @@
       backdrop-filter: blur(15px);
       display: flex;
       align-items: center;
-      gap: 12px;
-      max-width: 400px;
+      gap: 10px;
+      max-width: 350px;
+      font-size: 0.9rem;
     }
 
     .notification.show {
@@ -677,14 +710,14 @@
     VIDEO TITLE
     ========================= */
     .card .video-title {
-      font-size: 16px;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 18px;
+      margin-bottom: 15px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* =========================
@@ -714,6 +747,10 @@
       .hero p {
         font-size: 1.1rem;
       }
+      
+      .today-classes-table {
+        font-size: 0.8rem;
+      }
     }
 
     @media (max-width: 768px) {
@@ -735,7 +772,7 @@
       }
 
       .section-title {
-        margin-top: 40px;
+        margin-top: 30px;
       }
 
       .stats {
@@ -743,11 +780,20 @@
       }
 
       .hero {
-        padding: 40px 20px;
+        padding: 30px 15px;
       }
 
       .hero h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+      }
+      
+      .today-classes-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .pill {
+        padding: 12px 16px;
       }
     }
 
@@ -755,17 +801,17 @@
     CUSTOM SCROLLBAR
     ========================= */
     ::-webkit-scrollbar {
-      width: 12px;
+      width: 10px;
     }
 
     ::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     ::-webkit-scrollbar-thumb {
       background: var(--gradient-primary);
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
@@ -791,8 +837,8 @@
       background: var(--gradient-primary);
       background-size: 400% 400%;
       animation: gradientGlow 3s ease infinite;
-      filter: blur(12px);
-      opacity: 0.5;
+      filter: blur(10px);
+      opacity: 0.4;
     }
 
     @keyframes gradientGlow {
@@ -805,12 +851,12 @@
     SUBJECT PAGE STYLES
     ========================= */
     #subject-page .container {
-      padding-top: 30px;
+      padding-top: 25px;
     }
 
     #subject-title {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
       background-clip: text;
@@ -822,21 +868,22 @@
     ========================= */
     .filter-bar {
       display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
+      gap: 12px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
     .filter-bar input, .filter-bar select {
-      padding: 14px 20px;
-      border-radius: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
       border: 1px solid var(--card-border);
       background: var(--glass);
       color: var(--text);
       outline: none;
       transition: var(--transition);
       backdrop-filter: blur(10px);
-      min-width: 200px;
+      min-width: 180px;
+      font-size: 0.9rem;
     }
 
     .filter-bar input:focus, .filter-bar select:focus {
@@ -849,15 +896,15 @@
     ========================= */
     .card-badge {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 12px;
+      right: 12px;
       background: var(--gradient-primary);
       color: white;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+      padding: 3px 8px;
+      border-radius: 15px;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
     }
 
     /* =========================
@@ -865,10 +912,10 @@
     ========================= */
     .theme-switcher {
       position: fixed;
-      bottom: 30px;
-      left: 30px;
-      width: 50px;
-      height: 50px;
+      bottom: 25px;
+      left: 25px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       background: var(--gradient-primary);
       display: flex;
@@ -886,7 +933,7 @@
 
     .theme-switcher i {
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
   </style>
 </head>
@@ -910,7 +957,7 @@
       <!-- হিরো সেকশন -->
       <div class="hero fade-in">
         <h1 class="bangla-font">আলিম ২৬ প্রো ব্যাচ</h1>
-        <p class="bangla-font">শিক্ষার যাত্রায় এক নতুন দিগন্ত। বাংলাদেশ অনলাইন মাদ্রাসার শ্রেষ্ঠ শিক্ষার্থীদের জন্য প্রিমিয়াম লার্নিং এক্সপেরিয়েন্স</p>
+        <p class="bangla-font">শিক্ষার যাত্রায় এক নতুন দিগন্ত। বাংলাদেশ অনলাইন مাদ্রাসার শ্রেষ্ঠ শিক্ষার্থীদের জন্য প্রিমিয়াম লার্নিং এক্সপেরিয়েন্স</p>
       </div>
       <!-- স্ট্যাটস সেকশন -->
       <div class="stats">
@@ -935,13 +982,23 @@
       <div class="section-title">
         <h2 class="bangla-font">আজকের ক্লাস</h2>
       </div>
-      <div id="today-classes" class="grid">
-        <div class="empty-state">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p class="bangla-font">আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p>
-        </div>
+      <div id="today-classes">
+        <table class="today-classes-table">
+          <thead>
+            <tr>
+              <th class="bangla-font">সাবজেক্ট</th>
+              <th class="bangla-font">ক্লাসের তথ্য</th>
+              <th class="bangla-font">সময়</th>
+            </tr>
+          </thead>
+          <tbody id="today-classes-body">
+            <tr>
+              <td colspan="3" class="bangla-font" style="text-align: center; padding: 20px;">
+                <div class="loading"></div> লোড হচ্ছে...
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <!-- সকল সাবজেক্ট সেকশন -->
       <div class="section-title">
@@ -949,8 +1006,8 @@
       </div>
       <div class="subj-list">
         <a class="pill subject-link" href="#" data-name="কুরআন মাজীদ"><span><i class="fas fa-book-quran"></i> <span class="bangla-font">কুরআন মাজীদ</span></span><span class="go bangla-font">খুলুন</span></a>
-        <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span><i class="fas fa-book"></i> <span class="bangla-font">হাদীস ও উসূলুল হাদীস</span></span><span class="go bangla-font">খুলুন</span></a>
-        <a class="pill subject-link" href="#" data-name="আল ফিকহ প্রথম পত্র"><span><i class="fas fa-balance-scale"></i> <span class="bangla-font">আল ফিকহ প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
+        <a class="pill subject-link" href="#" data-name="হাদীস ও উসূলুল হাদীস"><span><i class="fas fa-book"></i> <span class="bangla-font">হাদীস ও উসূলুল হাদীス</span></span><span class="go bangla-font">খুলুন</span></a>
+        <a class="pill subject-link" href="#" data-name="আল ফিকহ প্রথম পত্র"><span><i class="fas fa-balance-scale"></i> <span class="bangla-font">আل ফিকহ প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="আল ফিকহ দ্বিতীয় পত্র"><span><i class="fas fa-balance-scale-right"></i> <span class="bangla-font">আল ফিকহ দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="আরবি প্রথম পত্র"><span><i class="fas fa-language"></i> <span class="bangla-font">আরবি প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="আরবি দ্বিতীয় পত্র"><span><i class="fas fa-language"></i> <span class="bangla-font">আরবি দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
@@ -970,7 +1027,7 @@
         <a class="pill subject-link" href="#" data-name="জীববিজ্ঞান দ্বিতীয় পত্র"><span><i class="fas fa-dna"></i> <span class="bangla-font">জীববিজ্ঞান দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="অর্থনীতি প্রথম পত্র"><span><i class="fas fa-chart-line"></i> <span class="bangla-font">অর্থনীতি প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="অর্থনীতি দ্বিতীয় পত্র"><span><i class="fas fa-chart-line"></i> <span class="bangla-font">অর্থনীতি দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
-        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন প্রথম পত্র"><span><i class="fas fa-landmark"></i> <span class="bangla-font">পৌরনীতি ও সুশাসন প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
+        <a class="pill subject-link" href="#" data-name="পৌরনীতি ও سوশাসন প্রথম পত্র"><span><i class="fas fa-landmark"></i> <span class="bangla-font">পৌরনীতি ও সুশাসন প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="পৌরনীতি ও সুশাসন দ্বিতীয় পত্র"><span><i class="fas fa-landmark"></i> <span class="bangla-font">পৌরনীতি ও সুশাসন দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত প্রথম পত্র"><span><i class="fas fa-square-root-alt"></i> <span class="bangla-font">উচ্চতর গণিত প্রথম পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
         <a class="pill subject-link" href="#" data-name="উচ্চতর গণিত দ্বিতীয় পত্র"><span><i class="fas fa-square-root-alt"></i> <span class="bangla-font">উচ্চতর গণিত দ্বিতীয় পত্র</span></span><span class="go bangla-font">খুলুন</span></a>
@@ -1055,6 +1112,36 @@
     const subjectPage = $('#subject-page');
     let allClasses = [];
 
+    // সাবজেক্টের তালিকা
+    const availableSubjects = [
+      "কুরআন মাজীদ",
+      "হাদীস ও উসূলুল হাদীস",
+      "আল ফিকহ প্রথম পত্র",
+      "আল ফিকহ দ্বিতীয় পত্র",
+      "আরবি প্রথম পত্র",
+      "আরবি দ্বিতীয় পত্র",
+      "আরবি সাহিত্য",
+      "বালাগাত ও মানতিক",
+      "বাংলা প্রথম পত্র",
+      "বাংলা দ্বিতীয় পত্র",
+      "ইংরেজি প্রথম পত্র",
+      "ইংরেজি দ্বিতীয় পত্র",
+      "ইসলামের ইতিহাস",
+      "তথ্য ও যোগাযোগ প্রযুক্তি",
+      "পদার্থবিজ্ঞান প্রথম পত্র",
+      "পদার্থবিজ্ঞান দ্বিতীয় পত্র",
+      "রসায়ন প্রথম পত্র",
+      "রসায়ন দ্বিতীয় পত্র",
+      "জীববিজ্ঞান প্রথম পত্র",
+      "জীববিজ্ঞান দ্বিতীয় পত্র",
+      "অর্থনীতি প্রথম পত্র",
+      "অর্থনীতি দ্বিতীয় পত্র",
+      "পৌরনীতি ও সুশাসন প্রথম পত্র",
+      "পৌরনীতি ও সুশাসন দ্বিতীয় পত্র",
+      "উচ্চতর গণিত প্রথম পত্র",
+      "উচ্চতর গণিত দ্বিতীয় পত্র"
+    ];
+
     // নোটিফিকেশন দেখানোর ফাংশন
     function showNotification(message, isError = false) {
       const notification = $('#notification');
@@ -1072,22 +1159,19 @@
       if (!timestamp) return getTodayDate();
 
       try {
-        if (typeof timestamp === 'string') {
-          const dateParts = timestamp.split(' ')[0].split('/');
-          if (dateParts.length === 3) {
-            const month = dateParts[0].padStart(2, '0');
-            const day = dateParts[1].padStart(2, '0');
-            const year = dateParts[2];
-            return `${year}-${month}-${day}`;
-          }
+        // MM/DD/YYYY ফরম্যাট পার্স করা
+        if (typeof timestamp === 'string' && timestamp.includes('/')) {
+          const [month, day, year] = timestamp.split(' ')[0].split('/');
+          return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        }
 
-          const date = new Date(timestamp);
-          if (!isNaN(date)) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-          }
+        // অন্য ফরম্যাটের জন্য
+        const date = new Date(timestamp);
+        if (!isNaN(date)) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
         }
 
         return getTodayDate();
@@ -1103,6 +1187,7 @@
 
       try {
         if (typeof timestamp === 'string') {
+          // MM/DD/YYYY HH:MM:SS ফরম্যাট পার্স করা
           const timePart = timestamp.split(' ')[1];
           if (timePart) {
             const [hours, minutes] = timePart.split(':');
@@ -1112,6 +1197,7 @@
             return `${hour12}:${minutes} ${period}`;
           }
 
+          // অন্য ফরম্যাটের জন্য
           const date = new Date(timestamp);
           if (!isNaN(date)) {
             const hours = date.getHours();
@@ -1140,7 +1226,7 @@
 
     // বাংলা মাসের নাম
     const banglaMonths = [
-      'জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
+      'জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রիլ', 'মে', 'জুন',
       'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
     ];
 
@@ -1159,6 +1245,58 @@
         console.error("Date formatting error:", error, dateStr);
         return dateStr;
       }
+    }
+
+    // স্ট্রিং সাদৃশ্যতা পরিমাপ (Levenshtein Distance)
+    function similarity(s1, s2) {
+      const longer = s1.length > s2.length ? s1 : s2;
+      const shorter = s1.length > s2.length ? s2 : s1;
+      
+      if (longer.length === 0) return 1.0;
+      
+      // সরাসরি মিল থাকলে 100% রিটার্ন করুন
+      if (longer === shorter) return 1.0;
+      
+      // শব্দের মধ্যে মিল খুঁজুন
+      const longerWords = longer.split(' ');
+      const shorterWords = shorter.split(' ');
+      
+      let maxWordSimilarity = 0;
+      for (const word1 of longerWords) {
+        for (const word2 of shorterWords) {
+          if (word1.length > 2 && word2.length > 2) {
+            if (word1.includes(word2) || word2.includes(word1)) {
+              maxWordSimilarity = Math.max(maxWordSimilarity, 0.8);
+            }
+          }
+        }
+      }
+      
+      // কমপক্ষে ৩ অক্ষরের শব্দের জন্য অক্ষর-ভিত্তিক মিল
+      if (longer.length >= 3 && shorter.length >= 3) {
+        if (longer.includes(shorter) || shorter.includes(longer)) {
+          return Math.max(maxWordSimilarity, 0.7);
+        }
+      }
+      
+      return maxWordSimilarity;
+    }
+
+    // সাবজেক্ট ম্যাচিং ফাংশন
+    function findBestMatchingSubject(subjectFromSheet) {
+      let bestMatch = null;
+      let highestSimilarity = 0;
+      
+      for (const availableSubject of availableSubjects) {
+        const sim = similarity(subjectFromSheet.toLowerCase(), availableSubject.toLowerCase());
+        
+        if (sim > highestSimilarity && sim >= 0.6) {
+          highestSimilarity = sim;
+          bestMatch = availableSubject;
+        }
+      }
+      
+      return bestMatch;
     }
 
     // ডেটা ফেচ করা - CORS সমস্যা সমাধান
@@ -1188,35 +1326,38 @@
         return json;
       } catch (error) {
         console.error("ডেটা লোড করতে সমস্যা:", error);
-
-        const fallbackData = [];
         showNotification("ডেটা লোড করা যায়নি", true);
-        return fallbackData;
+        return [];
       }
     }
 
     // ডেটা নরমালাইজ করা - টাইমস্ট্যাম্প ব্যবহার করে
     function normalizeRow(row, index) {
       const timestamp = row['timestamp'] || row['Timestamp'] || row['time'] || '';
-      const subject = row['subject'] || row['সাবজেক্ট'] || row['Subject'] || 'Unknown Subject';
+      const subjectFromSheet = row['subject'] || row['সাবজেক্ট'] || row['Subject'] || 'Unknown Subject';
       const link = row['link'] || row['লিংক'] || row['Link'] || '#';
       const title = row['title'] || row['ভিডিও টাইটেল'] || row['Video Title'] || 'ক্লাস ভিডিও';
 
       const date = getDateFromTimestamp(timestamp);
       const time = getTimeFromTimestamp(timestamp);
+      
+      // সাবজেক্ট ম্যাচিং
+      const matchedSubject = findBestMatchingSubject(subjectFromSheet) || subjectFromSheet;
 
       return {
-        subject: subject.trim(),
+        subject: matchedSubject.trim(),
+        originalSubject: subjectFromSheet.trim(),
         link: link.trim(),
         title: title.trim(),
         date: date,
         time: time,
-        serial: index + 1
+        serial: index + 1,
+        timestamp: timestamp
       };
     }
 
     // কার্ড রেন্ডার করা
-    function renderCards(rows, root, isPinned = false) {
+    function renderCards(rows, root) {
       if (!rows || rows.length === 0) {
         root.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p class="bangla-font">কোন ক্লাস পাওয়া যায়নি</p></div>';
         return;
@@ -1225,7 +1366,7 @@
       root.innerHTML = '';
       rows.forEach(r => {
         const card = document.createElement('div');
-        card.className = isPinned ? 'card pinned' : 'card';
+        card.className = 'card';
         card.innerHTML = `
           <span class="card-badge">#${r.serial}</span>
           <div class="subject"><i class="fas fa-book"></i> <span class="bangla-font">${r.subject}</span></div>
@@ -1241,6 +1382,50 @@
     function filterTodayClasses(classes) {
       const today = getTodayDate();
       return classes.filter(cls => cls.date === today);
+    }
+
+    // আজকের ক্লাসের সারাংশ দেখানো
+    function renderTodayClassesSummary(classes) {
+      const today = getTodayDate();
+      const todayClasses = filterTodayClasses(classes);
+      const container = $('#today-classes-body');
+      
+      if (todayClasses.length === 0) {
+        container.innerHTML = `
+          <tr>
+            <td colspan="3" class="bangla-font" style="text-align: center; padding: 20px;">
+              আজকের জন্য কোন ক্লাস পাওয়া যায়নি
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      // সাবজেক্ট অনুযায়ী গ্রুপ করা
+      const subjectGroups = {};
+      todayClasses.forEach(cls => {
+        if (!subjectGroups[cls.subject]) {
+          subjectGroups[cls.subject] = [];
+        }
+        subjectGroups[cls.subject].push(cls);
+      });
+      
+      // টেবিল বডি তৈরি করা
+      let tableHTML = '';
+      for (const subject in subjectGroups) {
+        const classes = subjectGroups[subject];
+        const latestClass = classes[classes.length - 1]; // সর্বশেষ ক্লাস
+        
+        tableHTML += `
+          <tr>
+            <td><span class="subject-badge bangla-font">${subject}</span></td>
+            <td class="class-info bangla-font">${classes.length}টি ক্লাস আপলোড হয়েছে</td>
+            <td class="bangla-font">${latestClass.time}</td>
+          </tr>
+        `;
+      }
+      
+      container.innerHTML = tableHTML;
     }
 
     // সময় অনুযায়ী সাজানো
@@ -1267,7 +1452,7 @@
       currentSubject = null;
     }
 
-    // সাবজেক্ট ডেটা লোড করা
+    // সাবজেক্ট ডেটা लोড করা
     function loadSubjectData(subject) {
       const grid = $('#classGrid');
       const searchInput = $('#search');
@@ -1296,18 +1481,6 @@
         const sorted = sortByTime(rows, order);
         renderCards(sorted, grid);
       });
-    }
-
-    // আজকের ক্লাস লোড করা
-    function loadTodayClasses() {
-      const todayContainer = $('#today-classes');
-      const todayClasses = filterTodayClasses(allClasses);
-
-      if (todayClasses.length > 0) {
-        renderCards(todayClasses, todayContainer, true);
-      } else {
-        todayContainer.innerHTML = '<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><p class="bangla-font">আজকের জন্য কোন ক্লাস পাওয়া যায়নি</p></div>';
-      }
     }
 
     // ইভেন্ট লিসেনার সেটআপ
@@ -1350,13 +1523,11 @@
 
     // প্রাথমিক ডেটা লোড
     async function loadInitialData() {
-      const todayContainer = $('#today-classes');
-      todayContainer.innerHTML = '<div class="card"><div class="subject bangla-font">ডেটা লোড হচ্ছে... <span class="loading"></span></div></div>';
-
       const data = await fetchData();
       allClasses = data.map((row, index) => normalizeRow(row, index));
-
-      loadTodayClasses();
+      
+      // আজকের ক্লাস সারাংশ দেখানো
+      renderTodayClassesSummary(allClasses);
     }
 
     // পেজ লোড হলে ইনিশিয়ালাইজেশন
